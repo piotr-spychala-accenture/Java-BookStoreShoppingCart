@@ -1,6 +1,7 @@
 package com.pluralsight;
 
 import java.io.IOException;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -49,6 +50,9 @@ public class CartController extends HttpServlet {
            break;
 			   case "/delete":
 			   	deleteFromCart(request, response);
+			break;
+				case "/update":
+					updateCart(request, response);
         default:
            break;
 			}
@@ -96,5 +100,13 @@ public class CartController extends HttpServlet {
 		int indexParameter = Integer.parseInt(request.getParameter("index"));
 		ShoppingCart shoppingCart = (ShoppingCart) httpSession.getAttribute("cart");
 		shoppingCart.deleteCartItem(indexParameter);
+	}
+
+	private void updateCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession httpSession = request.getSession();
+		int indexParameter = Integer.parseInt(request.getParameter("index"));
+		int quantityParameter = Integer.parseInt(request.getParameter("quantity"));
+		ShoppingCart shoppingCart = (ShoppingCart) httpSession.getAttribute("cart");
+		shoppingCart.updateCartItem(indexParameter, quantityParameter);
 	}
 }
