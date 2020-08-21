@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.inject.Inject;
+import javax.websocket.Session;
+
 /**
  * Servlet implementation class HelloWorld
  */
@@ -45,6 +47,8 @@ public class CartController extends HttpServlet {
 				case "/addcart":
 					 addToCart(request, response);
            break;
+			   case "/delete":
+			   	deleteFromCart(request, response);
         default:
            break;
 			}
@@ -85,5 +89,12 @@ public class CartController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
+	}
+
+	private void deleteFromCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession httpSession = request.getSession();
+		int indexParameter = Integer.parseInt(request.getParameter("index"));
+		ShoppingCart shoppingCart = (ShoppingCart) httpSession.getAttribute("cart");
+		shoppingCart.deleteCartItem(indexParameter);
 	}
 }
